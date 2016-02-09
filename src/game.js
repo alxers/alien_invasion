@@ -2,8 +2,6 @@
     // Initial setup
     var alienWidth = 20;
     var alienHeight = 20;
-    var alienX = 80;
-    var alienY = 20;
     var alienXStep = 280;
     var alienYStep = 30;
 
@@ -18,9 +16,12 @@
     var init = {};
 
     var fireBtn = document.getElementById('fireBtn');
-    fireBtn.addEventListener('click', function() { playGame() }, false);
+    fireBtn.addEventListener('click', function() { playGame(); }, false);
 
+    // TODO: cannon and missle are misplaced after game is finished
     function setInitials(init) {
+        init.alienX = 80;
+        init.alienY = 20;
         init.guessX = 0;
         init.guessY = 0;
         init.shotsRemaining = 8;
@@ -29,9 +30,11 @@
         init.gameWon = false;
     }
 
+    setInitials(init);
+
     function render() {
-        alien.style.left = alienX + 'px';
-        alien.style.top = alienY + 'px';
+        alien.style.left = init.alienX + 'px';
+        alien.style.top = init.alienY + 'px';
 
         cannon.style.left = init.guessX + 'px';
 
@@ -40,14 +43,13 @@
     }
 
     function playGame() {
-        setInitials(init);
         init.shotsRemaining -= 1;
         init.shotsMade += 1;
         init.gameState = " Shots: " + init.shotsMade + ", remaining: " + init.shotsRemaining;
 
         isAlienShot();
         isGameWon();
-        console.log(alienX, alienY)
+        console.log(init.alienX, init.alienY)
         render();
     }
 
@@ -55,8 +57,8 @@
         init.guessX = parseInt(inputX.value, 10);
         init.guessY = parseInt(inputY.value, 10);
 
-        if (init.guessX >= alienX && init.guessX <= alienX + alienWidth) {
-            if (init.guessY >= alienY && init.guessY <= alienY + alienHeight) {
+        if (init.guessX >= init.alienX && init.guessX <= init.alienX + alienWidth) {
+            if (init.guessY >= init.alienY && init.guessY <= init.alienY + alienHeight) {
                 init.gameWon = true;
                 endGame();
             }
@@ -67,8 +69,12 @@
 
     function isGameWon() {
         if (!init.gameWon) {
-            alienX = Math.floor(Math.random() * alienXStep);
-            alienY += alienYStep;
+            init.alienX = Math.floor(Math.random() * alienXStep);
+            init.alienY += alienYStep;
+        }
+
+        if (init.shotsRemaining <= 0) {
+            endGame();
         }
     }
 
@@ -78,6 +84,8 @@
         } else {
             output.innerHTML = "You lost! The earth has been invaded!";
         }
+
+        setInitials(init);
     }
 
 })();
