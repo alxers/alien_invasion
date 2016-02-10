@@ -18,12 +18,11 @@
     var fireBtn = document.getElementById('fireBtn');
     fireBtn.addEventListener('click', function() { playGame(); }, false);
 
-    // TODO: cannon and missle are misplaced after game is finished
     function setInitials(init) {
         init.alienX = 80;
         init.alienY = 20;
-        init.guessX = 0;
-        init.guessY = 0;
+        init.guessX = 142;
+        init.guessY = 240;
         init.shotsRemaining = 8;
         init.shotsMade = 0;
         init.gameState = '';

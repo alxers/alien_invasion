@@ -18,7 +18,7 @@
     height: 20px;
     position: absolute;
     top: 270px;
-    left: 140px;
+    left: 142px;
     background-image: url(../images/cannon.png);
 }
 
@@ -36,6 +36,6 @@
     height: 10px;
     position: absolute;
     top: 240px;
-    left: 145px;
+    left: 142px;
     background-image: url(../images/missle.png);
 }
