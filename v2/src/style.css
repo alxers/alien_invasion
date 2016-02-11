@@ -1,0 +1,39 @@
+html { 
+  background: url(../images/background.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#board {
+    text-align: center;
+}
+
+#cannon {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    display: inline-block;
+    top: 90%;
+    background-image: url(../images/cannon.png);
+}
+
+#alien {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    display: inline-block;
+    top: 1%;
+    background-image: url(../images/alien.png);
+}
+
+#missle {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    display: inline-block;
+    top: 85%;
+    left: 50.4%;
+    background-image: url(../images/missle.png);
+}
