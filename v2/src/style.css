@@ -24,7 +24,7 @@ html {
     height: 20px;
     position: absolute;
     display: inline-block;
-    top: 1%;
+    /*top: 1%;*/
     background-image: url(../images/alien.png);
 }
 
