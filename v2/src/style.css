@@ -4,19 +4,11 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  cursor: crosshair;
 }
 
 #board {
     text-align: center;
-}
-
-#cannon {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    display: inline-block;
-    top: 90%;
-    background-image: url(../images/cannon.png);
 }
 
 #alien {
@@ -28,12 +20,8 @@ html {
     background-image: url(../images/alien.png);
 }
 
-#missle {
-    width: 10px;
-    height: 10px;
+#startBtn {
     position: absolute;
-    display: inline-block;
-    top: 85%;
-    left: 50.4%;
-    background-image: url(../images/missle.png);
+    top: 90%;
+    left: 50%;
 }
