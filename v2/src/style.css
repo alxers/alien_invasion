@@ -11,7 +11,7 @@ html {
     text-align: center;
 }
 
-#alien {
+.js-alien {
     width: 20px;
     height: 20px;
     position: absolute;
@@ -24,4 +24,11 @@ html {
     position: absolute;
     top: 90%;
     left: 50%;
+}
+
+#gameStats {
+    color: white;
+    position: absolute;
+    top: 90%;
+    left: 2%;
 }
