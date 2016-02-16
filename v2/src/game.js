@@ -83,9 +83,12 @@
         // alien.y = alienY;
         startBtn.disabled = true;
         intervalId = setInterval(function() {
-            alien.move();
-            if (alien.isOnEarth()) {
-                gameOver();
+            for (var i = 0; i < aliens.length; i++) {
+                aliens[i].move()
+                
+                if (aliens[i].isOnEarth()) {
+                    gameOver();
+                }
             }
         }, alienSpeed);
     };
@@ -101,13 +104,18 @@
             gameOver();
             startGame();
         }
-        console.log(e.target === alien.el);
-        if (e.target === alien.el) {
-            alien.isShot();
-            alien.remove();
-            upateStats();
-            gameOver();
-        };
+        // console.log(e.target === alien.el);
+
+        for (var i = 0; i < aliens.length; i++) {
+     
+            if (e.target === aliens[i].el) {
+                aliens[i].isShot();
+                aliens[i].remove();
+                upateStats();
+                gameOver();
+            };
+        }
+
 
     }, false);
 
