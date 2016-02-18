@@ -6,7 +6,7 @@
     var xStep = 80;
     var xRangeMin = 20;
     var xRangeMax = 80
-    var yStep = 30;
+    var yStep = 10;
     var intervalId = 0;
     var planetPosition = 90;
     var killedPerOneLanding = 1;
@@ -28,15 +28,6 @@
         this.isAlive = true;
         return this;
     };
-
-    // Alien.prototype.draw = function() {
-    //     this.el = document.getElementById(this.type);
-
-    //     this.el.style.position = 'absolute';
-    //     this.el.style.left = alienX + '%'; //this.x + '%';
-    //     this.el.style.top = alienY + '%';  //this.y + '%';
-    //     console.log(this.el);
-    // };
 
     Alien.prototype.add = function() {
         this.el = document.createElement('div');
@@ -91,15 +82,29 @@
         // alien.y = alienY;
         startBtn.disabled = true;
         intervalId = setInterval(function() {
-            for (var i = 0; i < aliens.length; i++) {
-                aliens[i].move()
-                
-                if (aliens[i].isLanded()) {
-                    aliens.splice(i, 1);
+
+            aliens = aliens.filter(function(alien) {
+                var isLanded = alien.isLanded();
+                if (!isLanded) {
+                    alien.move();
+                } else {
                     gameStats.planetPopulation -= killedPerOneLanding;
                     upateStats();
                 }
+                return !isLanded;
+            });
+
+            if (gameStats.planetPopulation <= 0) {
+                gameOver();
             }
+            
+            if (!aliens.length) {
+                gameStats.level += 1;
+                upateStats();
+                aliens.push(new Alien().add());
+            }
+
+            console.log('tick');
         }, alienSpeed);
     };
 
@@ -114,18 +119,19 @@
             gameOver();
             startGame();
         }
-        // console.log(e.target === alien.el);
 
-        for (var i = 0; i < aliens.length; i++) {
-     
-            if (e.target === aliens[i].el) {
-                aliens[i].isShot();
-                aliens[i].remove();
+        aliens = aliens.filter(function(alien) {
+            var isShot = e.target === alien.el;
+
+            if (isShot) {
+                alien.isShot();
+                alien.remove();
                 gameStats.aliensShot += 1;
                 upateStats();
-                // gameOver();
-            };
-        }
+            }
+
+            return !isShot;
+        });
 
 
     }, false);
