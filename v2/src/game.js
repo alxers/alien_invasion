@@ -2,23 +2,20 @@
     // Initial setup
     var alienX = 50;
     var alienY = 1;
-    var alienSpeed = 600;
+    var alienSpeed = 700; // the smaller the number, the higher the speed
     var xStep = 80;
     var xRangeMin = 20;
     var xRangeMax = 80
-    var yStep = 10;
+    var yStep = 5;
     var intervalId = 0;
     var planetPosition = 90;
     var killedPerOneLanding = 1;
 
+    var gameStats = {};
+
     var boardEl = document.getElementById('board');
     var startBtn = document.getElementById('startBtn');
     var gameStatsEl = document.getElementById('gameStats');
-    var gameStats = {
-        aliensShot: 0,
-        planetPopulation: 7,
-        level: 1
-    };
     var aliens = [];
 
     // Game objects
@@ -35,12 +32,12 @@
         this.el.style.left = randXCoord() + '%';
         this.el.style.top = randYCoord() + '%';
 
-        board.appendChild(this.el);
+        boardEl.appendChild(this.el);
         return this;
     };
 
     Alien.prototype.remove = function() {
-        board.removeChild(this.el);
+        boardEl.removeChild(this.el);
         return this;
     };
 
@@ -68,14 +65,22 @@
         return Math.floor(Math.random() * yStep);
     };
 
+    var setDefaultStats = function(gameStats) {
+        gameStats.aliensShot = 0;
+        gameStats.planetPopulation = 7;
+        gameStats.level = 1;
+    };
 
     var upateStats = function() {
         gameStatsEl.innerHTML = 'Level: ' + gameStats.level + '</br>' +
-                                'Aliens shot: ' + gameStats.aliensShot + '</br>' + 
+                                'Aliens shot: ' + gameStats.aliensShot + '</br>' +
                                 'Planet population: ' + gameStats.planetPopulation + ' billions';
     }
 
     var startGame = function() {
+        boardEl.innerHTML = '';
+        setDefaultStats(gameStats);
+        upateStats();
         aliens.push(new Alien().add());
 
         // set initial alien height
@@ -94,14 +99,17 @@
                 return !isLanded;
             });
 
-            if (gameStats.planetPopulation <= 0) {
-                gameOver();
-            }
-            
+
             if (!aliens.length) {
                 gameStats.level += 1;
                 upateStats();
-                aliens.push(new Alien().add());
+                for (var i = 0; i < gameStats.level; i++) {
+                    aliens.push(new Alien().add());
+                }
+            }
+
+            if (gameStats.planetPopulation <= 0) {
+                gameOver();
             }
 
             console.log('tick');
@@ -110,13 +118,14 @@
 
     var gameOver = function() {
         clearInterval(intervalId);
+        aliens = [];
+        gameStats = {};
+        setDefaultStats(gameStats);
         startBtn.disabled = false;
-        // alien.draw();
     };
 
     document.addEventListener('click', function(e) {
         if (e.target === startBtn) {
-            gameOver();
             startGame();
         }
 
