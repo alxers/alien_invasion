@@ -16,8 +16,14 @@ html {
     height: 20px;
     position: absolute;
     display: inline-block;
-    /*top: 1%;*/
     background-image: url(../images/alien.png);
+
+    transition: 0.2s;
+}
+
+.js-alien:active {
+    opacity: 0;
+    transform: scale(5) rotate(30deg);
 }
 
 #startBtn {
