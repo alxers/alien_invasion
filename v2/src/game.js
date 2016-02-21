@@ -6,7 +6,7 @@
     var xStep = 80;
     var xRangeMin = 20;
     var xRangeMax = 80
-    var yStep = 5;
+    var yStep = 10;
     var intervalId = 0;
     var planetPosition = 90;
     var killedPerOneLanding = 1;
@@ -28,7 +28,7 @@
 
     Alien.prototype.add = function() {
         this.el = document.createElement('div');
-        this.el.className = 'js-alien';
+        this.el.className = 'js-alien js-alien-is-active';
         this.el.style.left = randXCoord() + '%';
         this.el.style.top = randYCoord() + '%';
 
@@ -75,17 +75,24 @@
         gameStatsEl.innerHTML = 'Level: ' + gameStats.level + '</br>' +
                                 'Aliens shot: ' + gameStats.aliensShot + '</br>' +
                                 'Planet population: ' + gameStats.planetPopulation + ' billions';
+    };
+
+    var handleAliensShootings = function(event) {
+        aliens = aliens.filter(function(alien) {
+            var isShot = event.target === alien.el;
+
+            if (isShot) {
+                alien.isShot();
+                alien.remove();
+                gameStats.aliensShot += 1;
+                upateStats();
+            }
+
+            return !isShot;
+        });
     }
 
-    var startGame = function() {
-        boardEl.innerHTML = '';
-        setDefaultStats(gameStats);
-        upateStats();
-        aliens.push(new Alien().add());
-
-        // set initial alien height
-        // alien.y = alienY;
-        startBtn.disabled = true;
+    var gameLoop = function() {
         intervalId = setInterval(function() {
 
             aliens = aliens.filter(function(alien) {
@@ -93,6 +100,7 @@
                 if (!isLanded) {
                     alien.move();
                 } else {
+                    alien.el.className = 'js-alien';
                     gameStats.planetPopulation -= killedPerOneLanding;
                     upateStats();
                 }
@@ -114,6 +122,19 @@
 
             console.log('tick');
         }, alienSpeed);
+    }
+
+    var startGame = function() {
+        boardEl.innerHTML = '';
+        setDefaultStats(gameStats);
+        upateStats();
+        aliens.push(new Alien().add());
+
+        // set initial alien height
+        // alien.y = alienY;
+        startBtn.disabled = true;
+
+        gameLoop();
     };
 
     var gameOver = function() {
@@ -124,23 +145,27 @@
         startBtn.disabled = false;
     };
 
+    // var mouseDown = false;
+
+    // document.addEventListener('mousedown', function(e) {
+    //     mouseDown = true;
+    // });
+
+    // document.addEventListener('mouseup', function(e) {
+    //     mouseDown = false;
+    // });
+
+    // use 'mouseover' to change the weapon mode
     document.addEventListener('click', function(e) {
         if (e.target === startBtn) {
             startGame();
         }
 
-        aliens = aliens.filter(function(alien) {
-            var isShot = e.target === alien.el;
+        handleAliensShootings(e);
 
-            if (isShot) {
-                alien.isShot();
-                alien.remove();
-                gameStats.aliensShot += 1;
-                upateStats();
-            }
-
-            return !isShot;
-        });
+        // used for another weapon mode
+        // if (mouseDown) {
+        // }
 
 
     }, false);
