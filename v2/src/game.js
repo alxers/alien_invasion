@@ -1,4 +1,4 @@
-// ;(function() {
+;(function() {
     // Initial setup
     var alienX = 50;
     var alienY = 1;
@@ -170,4 +170,4 @@
 
     }, false);
 
-// })();
+})();
